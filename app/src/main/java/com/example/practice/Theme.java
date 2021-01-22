@@ -6,10 +6,9 @@ import android.view.MenuInflater;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class Setting extends AppCompatActivity {
+public class Theme extends AppCompatActivity {
 
     RecyclerView recyclerView;
 
@@ -21,12 +20,12 @@ public class Setting extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_setting);
+        setContentView(R.layout.activity_theme);
 
+        RecyclerAdapter adapter = new RecyclerAdapter(this, bg_images);
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new GridLayoutManager(this,2));
-        RecyclerAdapter adapter = new RecyclerAdapter(this, bg_images);
         recyclerView.setAdapter(adapter);
     }
 

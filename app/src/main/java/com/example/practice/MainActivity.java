@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity {
         SLIDER.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),Setting.class));
+                startActivity(new Intent(getApplicationContext(),Theme.class));
             }
         });
 

@@ -11,6 +11,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Practice">
+        <activity
+            android:name=".City_List"
+            android:label="City List"></activity>
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,11 +21,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".search_city"
-            android:label="Search City"/>
-        <activity android:name=".Setting"
+        <activity
+            android:name=".search_city"
+            android:label="Search City" />
+        <activity
+            android:name=".Theme"
             android:label="Select Theme"
-            android:theme="@style/Theme.Practice"/>
+            android:theme="@style/Theme.Practice" />
     </application>
 
 </manifest>
