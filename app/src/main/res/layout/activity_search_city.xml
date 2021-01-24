@@ -20,11 +20,6 @@
             android:background="@drawable/seach_background"
             android:layoutDirection="rtl"
             app:queryHint="Enter City" />
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/location_list"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginBottom="10dp"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

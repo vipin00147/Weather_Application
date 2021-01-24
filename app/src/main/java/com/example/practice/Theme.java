@@ -6,6 +6,7 @@ import android.view.MenuInflater;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class Theme extends AppCompatActivity {
@@ -13,7 +14,7 @@ public class Theme extends AppCompatActivity {
     RecyclerView recyclerView;
 
     int bg_images [] = {R.drawable.one, R.drawable.two, R.drawable.three,
-            R.drawable.four, R.drawable.four, R.drawable.six,
+            R.drawable.four, R.drawable.six,
             R.drawable.seven, R.drawable.eight, R.drawable.nine,
             R.drawable.ten};
 

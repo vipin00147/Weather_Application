@@ -1,20 +1,13 @@
 package com.example.practice;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.location.Address;
-import android.location.Geocoder;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -23,15 +16,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
-
 import org.json.JSONArray;
 import org.json.JSONObject;
-
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.util.Calendar;
-import java.util.List;
-import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -51,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         TEMPERATURE = findViewById(R.id.temp);
         CITY = findViewById(R.id.city);
@@ -122,12 +112,10 @@ public class MainActivity extends AppCompatActivity {
                         editor.putString("city",city);
                         editor.commit();
 
-                        search_city.add_city.add(city);
+                        String icon = "https://openweathermap.org/img/wn/"+object2.getString("icon")+"@2x.png";
+                        insertItem(city, y, icon);
                         saveData();
 
-                        String icon = "https://openweathermap.org/img/wn/"+object2.getString("icon")+"@2x.png";
-                        Model.icon = icon;
-                        Model.temperature = temp1;
                     }
                     catch (Exception e){
                         e.printStackTrace();
@@ -136,7 +124,6 @@ public class MainActivity extends AppCompatActivity {
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(MainActivity.this, error.toString(), Toast.LENGTH_SHORT).show();
                 }
             });
             queue.add(jsonObjectRequest);
@@ -153,6 +140,13 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(),Theme.class));
+            }
+        });
+
+        LIST.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),City_List.class));
             }
         });
 
@@ -193,12 +187,25 @@ public class MainActivity extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
     }
 
+    private void insertItem(String city, int temp, String icon) {
+        Model.add_city.add(city);
+        Model.temperature.add(String.valueOf(temp));
+        Model.icon.add(icon);
+    }
+
     private void saveData() {
-        SharedPreferences sharedPreferences = getSharedPreferences("City List",MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences("City List", MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         Gson gson = new Gson();
-        String json = gson.toJson(search_city.add_city);
-        editor.putString("myCityList", json);
+        String json1 = gson.toJson(Model.add_city);
+        editor.putString("myCityList", json1);
+
+        String json2 = gson.toJson(Model.temperature);
+        editor.putString("myTempList", json2);
+
+        String json3 = gson.toJson(Model.icon);
+        editor.putString("myIconList", json3);
+
         editor.apply();
     }
 
