@@ -6,6 +6,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 
@@ -14,6 +15,8 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+
+import static maes.tech.intentanim.CustomIntent.customType;
 
 public class City_List extends AppCompatActivity {
 
@@ -37,10 +40,13 @@ public class City_List extends AppCompatActivity {
 
             @Override
             public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-                Model.add_city.remove(viewHolder.getAdapterPosition());
-                adapter.notifyItemRemoved(viewHolder.getLayoutPosition());
 
+                Model.add_city.remove(viewHolder.getAdapterPosition());
+                Model.temperature.remove(viewHolder.getAdapterPosition());
+                Model.icon.remove(viewHolder.getAdapterPosition());
+                adapter.notifyItemRemoved(viewHolder.getLayoutPosition());
                 saveData();
+                checkIfEmpty();
             }
         };
 
@@ -69,7 +75,7 @@ public class City_List extends AppCompatActivity {
         recyclerView = findViewById(R.id.location_list);
         recyclerView.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(this);
-        adapter = new CityAdapter(Model.add_city, Model.temperature, Model.icon);
+        adapter = new CityAdapter(Model.add_city, Model.temperature, Model.icon, City_List.this);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
     }
@@ -86,4 +92,18 @@ public class City_List extends AppCompatActivity {
         editor.putString("myIconList", json3);
         editor.apply();
     }
+
+   private void checkIfEmpty() {
+       if(Model.add_city.isEmpty()) {
+           saveData();
+
+           SharedPreferences preferences = getSharedPreferences("MyCity",MODE_PRIVATE);
+           SharedPreferences.Editor editor1 = preferences.edit();
+           editor1.putString("city",null);
+           editor1.commit();
+
+           startActivity(new Intent(getApplicationContext(),search_city.class));
+           finish();
+       }
+   }
 }

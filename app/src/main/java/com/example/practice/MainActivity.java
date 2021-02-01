@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -16,11 +17,14 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
+
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.text.DateFormat;
 import java.text.DecimalFormat;
 import java.util.Calendar;
+
+import static maes.tech.intentanim.CustomIntent.customType;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -71,6 +75,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(JSONObject response) {
                     try{
+
                         JSONArray jsonArray1 = response.getJSONArray("list");
                         JSONObject jsonObject1 = jsonArray1.getJSONObject(0);
                         JSONObject object1 = jsonObject1.getJSONObject("main");
@@ -107,13 +112,15 @@ public class MainActivity extends AppCompatActivity {
                         FEELS_LIKE.setText(object1.getString( "feels_like")+"°c");
                         PRESSURE.setText(object1.getString( "pressure")+" mb");
 
-                        SharedPreferences sharedPreferences = getSharedPreferences("MyCity",MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString("city",city);
-                        editor.commit();
-
                         String icon = "https://openweathermap.org/img/wn/"+object2.getString("icon")+"@2x.png";
-                        insertItem(city, y, icon);
+
+                        Intent intent = getIntent();
+                        String pos = intent.getExtras().getString("position");
+                        int position = Integer.parseInt(pos);
+                        Model.add_city.set(position, city);
+                        Model.temperature.set(position, String.valueOf(y));
+                        Model.icon.set(position, icon);
+
                         saveData();
 
                     }
@@ -127,12 +134,14 @@ public class MainActivity extends AppCompatActivity {
                 }
             });
             queue.add(jsonObjectRequest);
+
         }
 
         ADD_CITY.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(),search_city.class));
+                customType(MainActivity.this,"left-to-right");
             }
         });
 
@@ -140,6 +149,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(),Theme.class));
+                customType(MainActivity.this,"bottom-to-up");
             }
         });
 
@@ -147,9 +157,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(),City_List.class));
+                customType(MainActivity.this,"right-to-left");
             }
         });
-
     }
 
     @Override
@@ -187,10 +197,14 @@ public class MainActivity extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
     }
 
-    private void insertItem(String city, int temp, String icon) {
-        Model.add_city.add(city);
-        Model.temperature.add(String.valueOf(temp));
-        Model.icon.add(icon);
+    @Override
+    public void onBackPressed(){
+        super.onBackPressed();
+        Intent a = new Intent(Intent.ACTION_MAIN);
+        a.addCategory(Intent.CATEGORY_HOME);
+        a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(a);
+        finish();
     }
 
     private void saveData() {
@@ -199,13 +213,10 @@ public class MainActivity extends AppCompatActivity {
         Gson gson = new Gson();
         String json1 = gson.toJson(Model.add_city);
         editor.putString("myCityList", json1);
-
         String json2 = gson.toJson(Model.temperature);
         editor.putString("myTempList", json2);
-
         String json3 = gson.toJson(Model.icon);
         editor.putString("myIconList", json3);
-
         editor.apply();
     }
 

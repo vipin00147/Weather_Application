@@ -22,7 +22,7 @@
         <activity
             android:name=".search_city"
             android:label="Search City"
-            android:parentActivityName=".MainActivity"/>
+            android:theme="@style/Theme.Practice"/>
         <activity
             android:name=".Theme"
             android:label="Select Theme"

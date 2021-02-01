@@ -2,4 +2,13 @@
     <string name="app_name">practice</string>
     <string name="share">Share</string>
     <string name="settings">Settings</string>
+    <string name="Locate">Locate</string>
+    <string name="Delhi">Delhi</string>
+    <string name="Mumbai">Mumbai</string>
+    <string name="Jakarta">Jakarta</string>
+    <string name="Singapore">Singapore</string>
+    <string name="New_York">New York</string>
+    <string name="Los_angeles">Los Angeles</string>
+    <string name="Kuala_Lumpur">Kuala Lumpur</string>
+
 </resources>
