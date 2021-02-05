@@ -1,11 +1,14 @@
 package com.example.practice;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,7 +33,9 @@ public class MainActivity extends AppCompatActivity {
 
     TextView TEMPERATURE, CITY, DATE, WEATHER_STATUS, MIN_MAX;
     TextView WIND_SPEED, WIND_DIRECTION, FEELS_LIKE, PRESSURE;
-    ImageView LIST, ADD_CITY, SLIDER;
+    ImageView LIST, ADD_CITY;
+    ImageButton SLIDER;
+    ConstraintLayout main_theme;
 
     private String api_key = "fce6acc5bde8c051dcd9461aa098addb";
     private String city ;
@@ -42,13 +47,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
+        getSupportActionBar().hide();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
 
         TEMPERATURE = findViewById(R.id.temp);
         CITY = findViewById(R.id.city);
         DATE = findViewById(R.id.date);
+        main_theme = findViewById(R.id.main_background);
         WEATHER_STATUS = findViewById(R.id.weather_status);
         MIN_MAX = findViewById(R.id.min_max);
         LIST = findViewById(R.id.city_list);
@@ -62,10 +68,14 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences("MyCity",MODE_PRIVATE);
         city = sharedPreferences.getString("city",null);
 
+        SharedPreferences sharedPref = getSharedPreferences("my_prefs", MODE_PRIVATE);
+        int bg = sharedPref.getInt("background_resource", R.color.dark);
+        main_theme.setBackgroundResource(bg);
+
         if(city == null) {
             startActivity(new Intent(getApplicationContext(), search_city.class));
         }
-        else{
+        else {
             Calendar calendar = Calendar.getInstance();
             String current_date = DateFormat.getDateInstance(DateFormat.FULL).format(calendar.getTime());
 
@@ -86,7 +96,6 @@ public class MainActivity extends AppCompatActivity {
 
                         String min = object1.getString( "temp_min");
                         String max = object1.getString( "temp_max");
-
 
                         JSONArray jsonArray2 = jsonObject1.getJSONArray("weather");
                         JSONObject object2 = jsonArray2.getJSONObject(0);
@@ -200,10 +209,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed(){
         super.onBackPressed();
-        Intent a = new Intent(Intent.ACTION_MAIN);
-        a.addCategory(Intent.CATEGORY_HOME);
-        a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(a);
+        System.exit(0);
         finish();
     }
 

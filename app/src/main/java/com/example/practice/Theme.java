@@ -1,5 +1,6 @@
 package com.example.practice;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -13,7 +14,7 @@ public class Theme extends AppCompatActivity {
 
     RecyclerView recyclerView;
 
-    int bg_images [] = {R.drawable.one, R.drawable.two, R.drawable.three,
+    static int bg_images [] = {R.drawable.one, R.drawable.two, R.drawable.three,
             R.drawable.four, R.drawable.six,
             R.drawable.seven, R.drawable.eight, R.drawable.nine,
             R.drawable.ten};
@@ -35,6 +36,12 @@ public class Theme extends AppCompatActivity {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.menu, menu);
         return true;
+    }
+
+    public void onBackPressed() {
+        super.onBackPressed();
+        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+        finish();
     }
 
 }

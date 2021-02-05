@@ -11,25 +11,31 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Practice">
-
-        <activity android:name=".MainActivity">
+        <activity android:name=".Splash_Screen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".MainActivity"/>
         <activity
             android:name=".search_city"
             android:label="Search City"
-            android:theme="@style/Theme.Practice"/>
+            android:theme="@style/Theme.Practice" />
         <activity
             android:name=".Theme"
             android:label="Select Theme"
             android:theme="@style/Theme.Practice" />
-        <activity android:name=".City_List"
+        <activity
+            android:name=".City_List"
             android:label="City List"
-            android:theme="@style/Theme.Practice"/>
+            android:theme="@style/Theme.Practice" />
+        <activity
+            android:name=".view_theme"
+            android:label="Themes"
+            android:parentActivityName=".Theme"
+            android:theme="@style/Theme.Practice" />
     </application>
 
 </manifest>

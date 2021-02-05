@@ -1,6 +1,7 @@
 package com.example.practice;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,6 +10,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import static maes.tech.intentanim.CustomIntent.customType;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
     Context context;
@@ -28,7 +31,16 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerAdapter.ViewHolder holder, int position) {
-        holder.imageView.setBackground(context.getResources().getDrawable(bg_images[position]));
+        holder.imageView.setImageResource(bg_images[position]);
+        holder.imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context.getApplicationContext(), view_theme.class);
+                intent.putExtra("theme_image", bg_images[position]);
+                context.startActivity(intent);
+                customType(context,"fadein-to-fadeout");
+            }
+        });
     }
 
     @Override

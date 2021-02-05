@@ -22,6 +22,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 public class search_city extends AppCompatActivity {
 
@@ -83,6 +84,7 @@ public class search_city extends AppCompatActivity {
                 }
                 catch (Exception e){
                     e.printStackTrace();
+                    Toast.makeText(search_city.this, e.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             }
         }, new Response.ErrorListener() {
@@ -96,6 +98,12 @@ public class search_city extends AppCompatActivity {
     }
 
     private void insertItem(String city, int temp, String icon) {
+        if (Model.add_city == null) {
+            Model.add_city = new ArrayList<String>();
+            Model.temperature = new ArrayList<String>();
+            Model.icon = new ArrayList<String>();
+        }
+
         Model.add_city.add(city);
         Model.temperature.add(String.valueOf(temp));
         Model.icon.add(icon);
